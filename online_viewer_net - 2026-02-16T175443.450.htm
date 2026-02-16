@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#4f46e5" />
+  <title>القسمة على ٨ وعلى ٩</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root{
+      --bg:#f8fafc; --card:#fff; --text:#0f172a; --muted:#64748b; --border:#e2e8f0;
+      --indigo:#4f46e5; --indigo2:#eef2ff;
+      --emerald:#059669; --emerald2:#ecfdf5;
+      --amber:#d97706; --amber2:#fff7ed;
+      --pink:#ec4899;
+      --shadow: 0 18px 45px rgba(2,6,23,.10);
+      --shadow2: 0 10px 25px rgba(2,6,23,.08);
+      --r: 22px; --r2: 16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Cairo",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg); color:var(--text);
+    }
+    .wrap{ max-width: 1020px; margin:0 auto; padding:18px; }
+
+    /* Header */
+    .header{ text-align:center; margin: 8px 0 10px; }
+    .logo{ width:96px; height:96px; object-fit:contain; display:block; margin: 8px auto 10px; }
+    .title{
+      font-size: clamp(26px, 4.2vw, 40px);
+      font-weight: 900; margin: 0 0 6px; color:#1e1b4b;
+    }
+    .subtitle{ margin:0; color:var(--muted); font-weight:600; }
+    .order-badge{
+      display:inline-flex; align-items:center; gap:10px;
+      margin-top: 12px; padding: 10px 14px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 999px; color: var(--muted); font-weight: 800;
+      box-shadow: var(--shadow2);
+    }
+
+    /* ✅ معادلات ثابتة بصريًا + تمنع انقلاب الاتجاه */
+    .eq{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+
+      /* تُظهر المقسوم يمين.. ثم المقسوم عليه.. ثم = .. ثم الناتج يسار */
+      flex-direction: row-reverse;
+      direction: ltr;
+
+      unicode-bidi: isolate;
+      font-weight: 900;
+    }
+    .eq .tok{ unicode-bidi: isolate; padding: 0 2px; }
+    .eqbig{ font-size: 28px; font-weight: 900; color:#0f172a; }
+
+    /* Tabs */
+    .tabs{
+      display:flex; gap:10px; overflow:auto;
+      padding: 10px 2px 12px; margin: 10px auto 12px;
+    }
+    .tab-btn{
+      flex:0 0 auto;
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      font-weight: 900;
+      cursor:pointer;
+      transition: .2s;
+      box-shadow: 0 8px 18px rgba(2,6,23,.06);
+      white-space: nowrap;
+    }
+    .tab-btn:hover{ transform: translateY(-1px); }
+    .tab-btn.active{
+      background: var(--indigo);
+      border-color: transparent;
+      color:#fff;
+      box-shadow: 0 14px 28px rgba(79,70,229,.25);
+    }
+    .tab-btn svg{ width:20px; height:20px; }
+
+    /* Panel */
+    .panel{
+      background: var(--card);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      min-height: 600px;
+    }
+    .panel-body{ padding: 22px; }
+    .h2{ margin:0 0 10px; font-size: 22px; font-weight: 900; color:#312e81; }
+    .p{ margin:0 0 14px; color:var(--muted); font-weight: 650; line-height:1.85; }
+
+    .tab{ display:none; }
+    .tab.active{ display:block; }
+
+    /* Learn cards */
+    .grid2{ display:grid; grid-template-columns: 1fr; gap:14px; }
+    @media (min-width: 900px){ .grid2{ grid-template-columns: repeat(2, 1fr); } }
+
+    .ccard{
+      border: 2px solid var(--border);
+      border-radius: var(--r);
+      overflow:hidden;
+      background:#fff;
+    }
+    .ccard.indigo{ background: var(--indigo2); border-color:#c7d2fe; }
+    .ccard.amber{ background: var(--amber2); border-color:#fed7aa; }
+
+    .chead{
+      width:100%; border:0; background: transparent; cursor:pointer;
+      text-align:right;
+      padding: 16px 16px 12px;
+      display:flex; align-items:flex-start; justify-content: space-between; gap: 12px;
+    }
+    .chead:hover{ background: rgba(255,255,255,.35); }
+    .ctitle{ font-weight: 900; margin:0; color:#0f172a; font-size: 16px; }
+    .chint{ margin: 6px 0 0; color: var(--muted); font-weight: 650; font-size: 13px; line-height: 1.65; }
+    .iconbox{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:44px; height:44px; border-radius: 14px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.8);
+      flex: 0 0 auto;
+    }
+    .iconbox svg{ width:20px; height:20px; }
+    .chev{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:38px; height:38px; border-radius: 12px;
+      background: rgba(255,255,255,.65);
+      border:1px solid rgba(255,255,255,.75);
+      transition:.2s; margin-inline-start: 6px;
+    }
+    .chev svg{ width:18px; height:18px; }
+    .ccard.open .chev{ transform: rotate(180deg); }
+
+    .eqwrap{ padding: 0 16px 14px; }
+    .eqbox{
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 16px;
+      padding: 14px 12px;
+      text-align:center;
+    }
+    .eqnote{ margin-top: 8px; font-size: 11px; color: var(--muted); font-weight: 800; }
+
+    .cbody{
+      max-height: 0; opacity: 0; overflow: hidden;
+      transition: max-height .28s ease, opacity .28s ease;
+      padding: 0 16px;
+    }
+    .ccard.open .cbody{
+      max-height: 520px; opacity: 1;
+      padding-bottom: 16px;
+    }
+    .inner{
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.88);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .list{
+      margin: 0; padding: 0 18px 0 0;
+      color:#334155; font-weight: 650; line-height: 1.9; font-size: 13.5px;
+    }
+    .list li{ margin: 6px 0; }
+
+    .callout{
+      margin-top: 14px;
+      background: var(--emerald2);
+      border: 2px solid #a7f3d0;
+      border-radius: var(--r);
+      padding: 16px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .callout .txt{
+      color:#065f46; font-weight: 900;
+      line-height: 1.8;
+    }
+
+    .btn{
+      border:0; cursor:pointer;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 900;
+      transition:.15s;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+    .btn:active{ transform: scale(.98); }
+    .btn-indigo{ background: var(--indigo); color:#fff; box-shadow: 0 16px 28px rgba(79,70,229,.20); }
+    .btn-ghost{ background: #fff; border:1px solid var(--border); color: var(--muted); }
+
+    /* SUB TAB */
+    .subTab{
+      background: var(--indigo2);
+      border: 2px solid #c7d2fe;
+      border-radius: 22px;
+      padding: 16px;
+    }
+    .subControls{
+      display:flex; gap:10px; flex-wrap: wrap;
+      align-items:flex-end;
+      margin: 10px 0 12px;
+    }
+    .ctl{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 12px;
+      min-width: 220px;
+      box-shadow: 0 10px 22px rgba(2,6,23,.06);
+    }
+    .ctl label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    select{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 10px;
+      font-weight: 900;
+      font-family: inherit;
+      background:#fff;
+      outline:none;
+    }
+
+    .quickExamples{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top: 6px;
+    }
+    .chip{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 900;
+      cursor:pointer;
+      transition:.15s;
+    }
+    .chip:hover{ transform: translateY(-1px); }
+    .chip.active{ border-color:#a5b4fc; background:#fff; }
+
+    .subBoard{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 14px 30px rgba(2,6,23,.08);
+      margin-top: 12px;
+    }
+    .subHead{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: space-between;
+    }
+    .box{
+      background: #f8fafc;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      flex: 1 1 280px;
+    }
+    .box .lbl{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      flex: 1 1 320px;
+    }
+    .stat{
+      background:#f8fafc;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+    .stat .lbl{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .stat .v{
+      font-size: 22px;
+      font-weight: 900;
+      color:#1e1b4b;
+    }
+
+    .subActions{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .bigNum{
+      width: 120px; height: 120px;
+      border-radius: 22px;
+      background:#fff;
+      border: 2px solid #c7d2fe;
+      box-shadow: inset 0 10px 25px rgba(2,6,23,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 44px;
+      font-weight: 900;
+      color:#1e1b4b;
+    }
+    .btn-pink{
+      background: var(--pink);
+      color:#fff;
+      box-shadow: 0 16px 28px rgba(236,72,153,.22);
+    }
+    .btn-pink:disabled{
+      background:#e2e8f0;
+      color:#94a3b8;
+      box-shadow:none;
+      cursor:not-allowed;
+    }
+
+    .chainBox{
+      margin-top: 12px;
+      background:#f8fafc;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+    .chainBox .lbl{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .stepsV{
+      margin-top: 12px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .stepRow{
+      background:#fff;
+      border: 1px solid rgba(79,70,229,.14);
+      border-radius: 18px;
+      padding: 12px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(79,70,229,.08);
+      border: 1px solid rgba(79,70,229,.18);
+      color:#3730a3;
+      font-weight: 900;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .stepEq{ font-size: 22px; font-weight: 900; color:#0f172a; }
+
+    .resultBox{
+      margin-top: 12px;
+      background: rgba(5,150,105,.10);
+      border: 2px solid rgba(5,150,105,.22);
+      border-radius: 18px;
+      padding: 12px;
+      color:#065f46;
+      font-weight: 900;
+      line-height: 1.9;
+      display:none;
+    }
+
+    /* Shop */
+    .shopBanner{
+      background:#111827;
+      color:#fff;
+      border-radius: 18px;
+      padding: 14px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 10px 0 14px;
+    }
+    .shopBanner .muted{ opacity:.75; font-weight:700; }
+    .shopBanner .big{ font-weight: 900; font-size: 20px; margin-top: 4px; line-height: 1.7; }
+    .shopGrid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (min-width: 900px){ .shopGrid{ grid-template-columns: repeat(4, 1fr); } }
+    .item{
+      border-radius: 18px;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      background:#fff;
+      transition:.15s;
+    }
+    .item.good{ border-color: rgba(5,150,105,.22); background: rgba(5,150,105,.06); }
+    .item.bad{ opacity:.55; filter: grayscale(1); }
+    .emoji{ font-size: 34px; }
+    .iname{ font-weight: 900; margin-top: 8px; }
+    .iprice{ font-weight: 900; color: var(--indigo); margin-top: 4px; }
+    .tag{
+      display:inline-block; margin-top: 8px; padding: 4px 8px;
+      border-radius: 999px; font-size: 10px; font-weight: 900; color:#fff;
+    }
+    .tag.good{ background: var(--emerald); }
+    .tag.bad{ background: #cbd5e1; }
+
+    /* Quiz */
+    .qtop{
+      display:flex; align-items:center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      background:#f1f5f9; border-radius: 16px; padding: 12px 14px; margin-bottom: 14px;
+    }
+    .pill{
+      background: var(--indigo);
+      color:#fff;
+      font-weight: 900;
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+    .question{
+      text-align:center;
+      font-size: 22px;
+      font-weight: 900;
+      color:#0f172a;
+      line-height: 1.8;
+      margin: 12px 0 16px;
+    }
+    .choices{
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .choice{
+      border-radius: 18px;
+      padding: 18px 14px;
+      font-size: 22px;
+      font-weight: 900;
+      border: 2px solid rgba(79,70,229,.18);
+      background:#fff;
+      cursor:pointer;
+      transition:.15s;
+      color:#1e1b4b;
+    }
+    .choice:hover{ background: rgba(79,70,229,.06); border-color: rgba(79,70,229,.45); }
+    .choice:active{ transform: scale(.98); }
+    .choice[disabled]{ cursor:not-allowed; opacity:.7; }
+
+    .fb{
+      max-width: 760px;
+      margin: 14px auto 0;
+      border-radius: 16px;
+      padding: 12px 14px;
+      display:none;
+      align-items:flex-start;
+      gap: 10px;
+      font-weight: 850;
+    }
+    .fb svg{ width:20px; height:20px; margin-top: 2px; }
+    .fb.ok{ background: rgba(5,150,105,.10); border: 1px solid rgba(5,150,105,.25); color:#065f46; }
+    .fb.no{ background: rgba(244,63,94,.10); border: 1px solid rgba(244,63,94,.25); color:#9f1239; }
+    .fb .txt{ color:#334155; font-weight: 700; margin-top: 6px; line-height: 1.85; }
+    .nextRow{ display:flex; justify-content:center; gap:10px; margin-top: 12px; }
+
+    /* Footer */
+    .footer{
+      text-align:center;
+      margin-top: 14px;
+      color:#94a3b8;
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.8;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="header">
+      <img class="logo" src="logo.png" alt="الشعار" onerror="this.style.display='none'">
+      <h1 class="title">القسمة على ٨ وعلى ٩</h1>
+      <p class="subtitle">استعمل الحقائق المترابطة والطرح المتكرر لتجد ناتج القسمة</p>
+
+      <div class="order-badge">
+        <span>ترتيب القسمة:</span>
+        <span id="eq-order" class="eq"></span>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="تبويبات التطبيق">
+      <button class="tab-btn active" data-tab="learn" role="tab" aria-selected="true">
+        <i data-lucide="calculator"></i> تعلم الاستراتيجيات
+      </button>
+      <button class="tab-btn" data-tab="sub" role="tab" aria-selected="false">
+        <i data-lucide="refresh-cw"></i> الطرح المتكرر خطوة بخطوة
+      </button>
+      <button class="tab-btn" data-tab="shop" role="tab" aria-selected="false">
+        <i data-lucide="shopping-bag"></i> متجر الهدايا الذكي
+      </button>
+      <button class="tab-btn" data-tab="quiz" role="tab" aria-selected="false">
+        <i data-lucide="star"></i> تحدي الأذكياء
+      </button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-body">
+
+        <!-- LEARN -->
+        <section class="tab active" id="tab-learn">
+          <h2 class="h2">بطاقات سريعة + تبويب مستقل للتدرّج</h2>
+          <p class="p">✅ تم تحويل جميع الأرقام إلى العربية في كل أجزاء التطبيق.</p>
+
+          <div class="grid2">
+            <div class="ccard indigo open" data-acc="div">
+              <button class="chead" type="button">
+                <div style="flex:1">
+                  <p class="ctitle">بطاقة القسمة</p>
+                  <p class="chint">المقسوم يمين ثم المقسوم عليه ثم = الناتج</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span class="iconbox" style="color:var(--indigo)"><i data-lucide="divide"></i></span>
+                  <span class="chev"><i data-lucide="chevron-down"></i></span>
+                </div>
+              </button>
+
+              <div class="eqwrap">
+                <div class="eqbox">
+                  <div class="eqbig"><span id="eq-div" class="eq"></span></div>
+                  <div class="eqnote">(المقسوم يمين ← المقسوم عليه ← = ← الناتج يسار)</div>
+                </div>
+              </div>
+
+              <div class="cbody">
+                <div class="inner">
+                  <ul class="list">
+                    <li>اقرأها: <b>المقسوم ÷ المقسوم عليه = الناتج</b>.</li>
+                    <li>تحقق بالضرب: <b>الناتج × المقسوم عليه = المقسوم</b>.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="ccard amber" data-acc="mul">
+              <button class="chead" type="button">
+                <div style="flex:1">
+                  <p class="ctitle">بطاقة الضرب</p>
+                  <p class="chint">الضرب يساعدك تتأكد من القسمة</p>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span class="iconbox" style="color:var(--amber)"><i data-lucide="calculator"></i></span>
+                  <span class="chev"><i data-lucide="chevron-down"></i></span>
+                </div>
+              </button>
+
+              <div class="eqwrap">
+                <div class="eqbox">
+                  <div class="eqbig"><span id="eq-mul" class="eq"></span></div>
+                  <div class="eqnote">(تحقق: الناتج × المقسوم عليه = المقسوم)</div>
+                </div>
+              </div>
+
+              <div class="cbody">
+                <div class="inner">
+                  <ul class="list">
+                    <li>مثال: <b id="w-mul"></b> إذن <b id="w-div"></b>.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="txt">لرؤية التدرّج بشكل واضح افتح تبويب: <span style="color:#064e3b;">الطرح المتكرر خطوة بخطوة</span>.</div>
+            <button class="btn btn-indigo" id="go-sub"><i data-lucide="arrow-left-circle"></i> فتح تبويب الطرح المتكرر</button>
+          </div>
+        </section>
+
+        <!-- SUB -->
+        <section class="tab" id="tab-sub">
+          <h2 class="h2">الطرح المتكرر خطوة بخطوة (كل الأرقام عربية)</h2>
+          <p class="p">اختر مثالًا ثم اضغط <b>اطرح</b> لتظهر الخطوات بالتدرّج.</p>
+
+          <div class="subTab">
+            <div class="subControls">
+              <div class="ctl">
+                <label>اختر المقسوم (أمثلة مناسبة)</label>
+                <select id="sel-dividend"></select>
+              </div>
+
+              <div class="ctl">
+                <label>اختر المقسوم عليه</label>
+                <select id="sel-divisor"></select>
+              </div>
+
+              <button class="btn btn-indigo" id="btn-start"><i data-lucide="play"></i> ابدأ</button>
+              <button class="btn btn-ghost" id="btn-sub-reset"><i data-lucide="undo-2"></i> إعادة</button>
+            </div>
+
+            <div class="quickExamples" id="quick-ex"></div>
+
+            <div class="subBoard">
+              <div class="subHead">
+                <div class="box">
+                  <div class="lbl">المعادلة</div>
+                  <div class="eqbig"><span id="sub-eq" class="eq"></span></div>
+                </div>
+
+                <div class="stats">
+                  <div class="stat">
+                    <div class="lbl">عدد مرات الطرح (الناتج)</div>
+                    <div class="v" id="sub-count">٠</div>
+                  </div>
+                  <div class="stat">
+                    <div class="lbl">المتبقي</div>
+                    <div class="v" id="sub-rem">٠</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="subActions">
+                <div class="bigNum" id="sub-current">٠</div>
+                <span style="opacity:.6"><i data-lucide="arrow-right-circle"></i></span>
+                <button class="btn btn-pink" id="btn-subtract">
+                  <i data-lucide="minus"></i>
+                  اطرح <span id="sub-dvs">٩</span>
+                </button>
+              </div>
+
+              <div class="chainBox">
+                <div class="lbl">سلسلة التدرّج</div>
+                <div class="eq" id="sub-chain"></div>
+              </div>
+
+              <div class="stepsV" id="sub-steps"></div>
+              <div class="resultBox" id="sub-result"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SHOP -->
+        <section class="tab" id="tab-shop">
+          <h2 class="h2">متجر التفكير الحسابي</h2>
+          <p class="p">٩ طلاب دفع كل واحد ٣ ريالات… ما الذي يمكن شراؤه؟</p>
+
+          <div class="shopBanner">
+            <div>
+              <div class="muted">المبلغ الإجمالي:</div>
+              <div class="big"><span id="eq-budget" class="eq"></span> ريالاً</div>
+            </div>
+            <div class="iconbox" style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.25);color:#fff">
+              <i data-lucide="users"></i>
+            </div>
+          </div>
+
+          <div class="shopGrid" id="shop-grid"></div>
+        </section>
+
+        <!-- QUIZ -->
+        <section class="tab" id="tab-quiz">
+          <div class="qtop">
+            <div style="font-weight:900;color:#4338ca" id="q-progress">السؤال ١ من ٤</div>
+            <div class="pill" id="q-score">النقاط: ٠</div>
+          </div>
+
+          <div class="question" id="q-text">...</div>
+          <div class="choices" id="q-choices"></div>
+
+          <div class="fb ok" id="fb-ok">
+            <i data-lucide="check-circle-2"></i>
+            <div>إجابة صحيحة! <div class="txt" id="fb-ok-txt"></div></div>
+          </div>
+
+          <div class="fb no" id="fb-no">
+            <i data-lucide="alert-circle"></i>
+            <div>إجابة غير صحيحة <div class="txt" id="fb-no-txt"></div></div>
+          </div>
+
+          <div class="nextRow">
+            <button class="btn btn-indigo" id="btn-next" disabled><i data-lucide="arrow-left-circle"></i> التالي</button>
+            <button class="btn btn-ghost" id="btn-restart"><i data-lucide="refresh-cw"></i> إعادة التحدي</button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>مادة الرياضيات - الفصل الدراسي الثاني - الدرس ٧-٤</div>
+      <div>أ/ فاطمة هزازي — ملتقى معلمي ومعلمات الرياضيات — ملتقى التعليم التفاعلي</div>
+    </div>
+  </div>
+
+<script>
+  // ✅ تحويل الأرقام إلى العربية (تصحيح: \d وليس \\d)
+  const AR = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  const fmt = (v) => String(v).replace(/\d/g, d => AR[Number(d)]); // ✅
+
+  function buildEq(tokens){
+    return tokens.map(t => `<span class="tok"><bdi>${fmt(t)}</bdi></span>`).join('');
+  }
+  function setEq(el, tokens){
+    el.innerHTML = `<span class="eq">${buildEq(tokens)}</span>`;
+  }
+  function refreshIcons(){ if (window.lucide) window.lucide.createIcons(); }
+
+  // ✅ ضمان إضافي: أي رقم لاتيني يظهر في النصوص يتحول
+  function arabizeTextNodes(root = document.body){
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      node.nodeValue = node.nodeValue.replace(/\d/g, d => AR[Number(d)]);
+    }
+  }
+
+  // Tabs
+  const tabBtns = Array.from(document.querySelectorAll('.tab-btn'));
+  const tabs = {
+    learn: document.getElementById('tab-learn'),
+    sub:  document.getElementById('tab-sub'),
+    shop: document.getElementById('tab-shop'),
+    quiz: document.getElementById('tab-quiz')
+  };
+  function setTab(name){
+    tabBtns.forEach(b => {
+      const on = b.dataset.tab === name;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    Object.keys(tabs).forEach(k => tabs[k].classList.toggle('active', k === name));
+    refreshIcons();
+    arabizeTextNodes(); // ✅
+  }
+  tabBtns.forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+  document.getElementById('go-sub').addEventListener('click', () => setTab('sub'));
+
+  // Accordion
+  const cards = Array.from(document.querySelectorAll('.ccard'));
+  function openCard(id){ cards.forEach(c => c.classList.toggle('open', c.dataset.acc === id)); }
+  cards.forEach(c => c.querySelector('.chead').addEventListener('click', () => { openCard(c.dataset.acc); arabizeTextNodes(); }));
+
+  // ثابت
+  setEq(document.getElementById('eq-order'), ['المقسوم','÷','المقسوم عليه','=','الناتج']);
+  setEq(document.getElementById('eq-div'), [32,'÷',8,'=',4]);
+  setEq(document.getElementById('eq-mul'), [4,'×',8,'=',32]);
+  setEq(document.getElementById('eq-budget'), [9,'×',3,'=',27]);
+
+  document.getElementById('w-mul').textContent = fmt(`${4} × ${8} = ${32}`);
+  document.getElementById('w-div').textContent = fmt(`${32} ÷ ${8} = ${4}`);
+
+  // SUB TAB
+  const selDividend = document.getElementById('sel-dividend');
+  const selDivisor  = document.getElementById('sel-divisor');
+  const btnStart    = document.getElementById('btn-start');
+  const btnResetSub = document.getElementById('btn-sub-reset');
+
+  const elSubEq     = document.getElementById('sub-eq');
+  const elCount     = document.getElementById('sub-count');
+  const elRem       = document.getElementById('sub-rem');
+  const elCurrent   = document.getElementById('sub-current');
+  const elDvs       = document.getElementById('sub-dvs');
+  const btnSubtract = document.getElementById('btn-subtract');
+  const elChain     = document.getElementById('sub-chain');
+  const elSteps     = document.getElementById('sub-steps');
+  const elResult    = document.getElementById('sub-result');
+  const quickEx     = document.getElementById('quick-ex');
+
+  const dividends = [24, 27, 32, 36, 45, 54, 63, 72];
+  selDividend.innerHTML = dividends.map(n => `<option value="${n}">${fmt(n)}</option>`).join('');
+  selDividend.value = '27';
+
+  const divisors = [8, 9];
+  selDivisor.innerHTML = divisors.map(n => `<option value="${n}">${fmt(n)}</option>`).join('');
+  selDivisor.value = '9';
+
+  const quickExamples = [
+    { dvd: 27, dvs: 9 },
+    { dvd: 54, dvs: 9 },
+    { dvd: 32, dvs: 8 },
+    { dvd: 24, dvs: 8 }
+  ];
+  quickEx.innerHTML = quickExamples.map((e,i)=>`
+    <button class="chip ${i===0?'active':''}" data-dvd="${e.dvd}" data-dvs="${e.dvs}">
+      مثال: <span class="eq">${buildEq([e.dvd,'÷',e.dvs])}</span>
+    </button>
+  `).join('');
+
+  let dvd = 27, dvs = 9, cur = 27, count = 0, steps = [];
+
+  function buildChain(){
+    const vals = [dvd].concat(steps.map(s => s.to));
+    const tokens = [];
+    vals.forEach((v,i)=>{ tokens.push(v); if(i<vals.length-1) tokens.push('⟵'); });
+    elChain.innerHTML = `<span class="eq">${buildEq(tokens)}</span>`;
+  }
+
+  function renderSub(){
+    setEq(elSubEq, [dvd,'÷',dvs]);
+    elDvs.textContent = fmt(dvs);
+
+    elCount.textContent   = fmt(count);
+    elRem.textContent     = fmt(cur);
+    elCurrent.textContent = fmt(cur);
+
+    btnSubtract.disabled = cur < dvs;
+
+    buildChain();
+
+    elSteps.innerHTML = steps.map((s,i)=>`
+      <div class="stepRow">
+        <div class="badge"><i data-lucide="footprints"></i> الخطوة ${fmt(i+1)}</div>
+        <div class="stepEq"><span class="eq">${buildEq([s.from,'−',dvs,'=',s.to])}</span></div>
+      </div>
+    `).join('');
+
+    if (cur < dvs){
+      elResult.style.display = 'block';
+      if (cur === 0){
+        elResult.innerHTML = `
+          وصلنا للصفر ✅ إذن:
+          <div style="margin-top:6px" class="eqbig"><span class="eq">${buildEq([dvd,'÷',dvs,'=',count])}</span></div>
+          <div style="margin-top:4px">بدون باقي</div>
+        `;
+      } else {
+        elResult.innerHTML = `
+          توقفنا لأن المتبقي أصغر من المقسوم عليه ✅
+          <div style="margin-top:6px" class="eqbig"><span class="eq">${buildEq([dvd,'÷',dvs,'=',count])}</span></div>
+          <div style="margin-top:4px">الباقي: ${fmt(cur)}</div>
+        `;
+      }
+    } else {
+      elResult.style.display = steps.length ? 'block' : 'none';
+      if (steps.length) elResult.innerHTML = `استمر بالطرح… كل مرة تطرح ${fmt(dvs)} يزيد الناتج ١.`;
+    }
+
+    document.querySelectorAll('.chip').forEach(ch=>{
+      const ok = Number(ch.dataset.dvd)===dvd && Number(ch.dataset.dvs)===dvs;
+      ch.classList.toggle('active', ok);
+    });
+
+    refreshIcons();
+    arabizeTextNodes(); // ✅
+  }
+
+  function startSub(newDvd, newDvs){
+    dvd = Number(newDvd);
+    dvs = Number(newDvs);
+    cur = dvd;
+    count = 0;
+    steps = [];
+    renderSub();
+  }
+
+  btnSubtract.addEventListener('click', () => {
+    if (cur >= dvs){
+      const next = cur - dvs;
+      steps.push({ from: cur, to: next });
+      cur = next;
+      count++;
+      renderSub();
+    }
+  });
+
+  btnResetSub.addEventListener('click', () => startSub(dvd, dvs));
+  btnStart.addEventListener('click', () => startSub(selDividend.value, selDivisor.value));
+
+  quickEx.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chip');
+    if (!btn) return;
+    selDividend.value = btn.dataset.dvd;
+    selDivisor.value  = btn.dataset.dvs;
+    startSub(btn.dataset.dvd, btn.dataset.dvs);
+  });
+
+  startSub(27, 9);
+
+  // SHOP
+  const prices = [
+    { name:'مسبحة', price:25, icon:'📿' },
+    { name:'قلم',   price:8,  icon:'🖊️' },
+    { name:'محفظة', price:45, icon:'👛' },
+    { name:'ساعة',  price:250,icon:'⌚' },
+  ];
+  const budget = 27;
+  const shopGrid = document.getElementById('shop-grid');
+  shopGrid.innerHTML = prices.map(item => {
+    const ok = budget >= item.price;
+    return `
+      <div class="item ${ok ? 'good' : 'bad'}">
+        <div class="emoji">${item.icon}</div>
+        <div class="iname">${item.name}</div>
+        <div class="iprice">${fmt(item.price)} ريال</div>
+        <span class="tag ${ok ? 'good' : 'bad'}">${ok ? 'يمكن شراؤها' : 'المبلغ لا يكفي'}</span>
+      </div>
+    `;
+  }).join('');
+
+  // QUIZ
+  const quiz = [
+    { q:'إذا كان لديك 32 طالباً، فكم مجموعة من 8 يمكن تكوينها؟', a:4, choices:[3,4,5,8], explain:'استخدم الحقيقة المترابطة: 4 × 8 = 32، إذن 32 ÷ 8 = 4.' },
+    { q:'وزعت علياء 27 نجمة على 9 صديقات، كم نجمة لكل واحدة؟', a:3, choices:[9,2,3,6], explain:'بالطرح المتكرر: 27 − 9 − 9 − 9 = 0 (3 مرات)، إذن 27 ÷ 9 = 3.' },
+    { q:'اشترت سعاد 24 هدية لـ 8 صديقات، كم نصيب كل صديقة؟', a:3, choices:[3,4,8,2], explain:'فكر بالضرب: 3 × 8 = 24، إذن 24 ÷ 8 = 3.' },
+    { q:'ما هو ناتج 54 ÷ 9 ؟', a:6, choices:[7,6,8,9], explain:'لأن 6 × 9 = 54، إذن 54 ÷ 9 = 6.' },
+  ];
+  let qi = 0, score = 0, locked = false;
+
+  const qProgress = document.getElementById('q-progress');
+  const qScore = document.getElementById('q-score');
+  const qText = document.getElementById('q-text');
+  const qChoices = document.getElementById('q-choices');
+  const fbOk = document.getElementById('fb-ok');
+  const fbNo = document.getElementById('fb-no');
+  const fbOkTxt = document.getElementById('fb-ok-txt');
+  const fbNoTxt = document.getElementById('fb-no-txt');
+  const btnNext = document.getElementById('btn-next');
+  const btnRestart = document.getElementById('btn-restart');
+
+  function hideFeedback(){
+    fbOk.style.display = 'none';
+    fbNo.style.display = 'none';
+    btnNext.disabled = true;
+  }
+
+  function renderQuiz(){
+    const total = quiz.length;
+    qProgress.textContent = fmt(`السؤال ${qi+1} من ${total}`);
+    qScore.textContent = fmt(`النقاط: ${score}`);
+
+    const item = quiz[qi];
+    qText.textContent = fmt(item.q);
+
+    qChoices.innerHTML = item.choices.map(c => `<button class="choice" data-choice="${c}">${fmt(c)}</button>`).join('');
+
+    hideFeedback();
+    locked = false;
+
+    qChoices.querySelectorAll('.choice').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (locked) return;
+        locked = true;
+
+        const choice = Number(btn.dataset.choice);
+        const correct = choice === item.a;
+
+        qChoices.querySelectorAll('.choice').forEach(b => b.disabled = true);
+
+        if (correct){
+          score++;
+          qScore.textContent = fmt(`النقاط: ${score}`);
+          fbOkTxt.textContent = fmt(item.explain);
+          fbOk.style.display = 'flex';
+        } else {
+          fbNoTxt.textContent = fmt(`الإجابة الصحيحة هي: ${item.a}. ${item.explain}`);
+          fbNo.style.display = 'flex';
+        }
+
+        btnNext.disabled = false;
+        btnNext.textContent = (qi < total-1) ? 'التالي' : 'إنهاء التحدي';
+        refreshIcons();
+        arabizeTextNodes(); // ✅
+      });
+    });
+
+    refreshIcons();
+    arabizeTextNodes(); // ✅
+  }
+
+  btnNext.addEventListener('click', () => {
+    const total = quiz.length;
+    if (btnNext.disabled) return;
+
+    if (qi < total - 1){
+      qi++;
+      renderQuiz();
+    } else {
+      qText.textContent = fmt(`انتهى التحدي! نتيجتك: ${score} من ${total}.`);
+      qChoices.innerHTML = '';
+      hideFeedback();
+      btnNext.disabled = true;
+      arabizeTextNodes(); // ✅
+    }
+  });
+
+  btnRestart.addEventListener('click', () => { qi = 0; score = 0; renderQuiz(); });
+
+  refreshIcons();
+  renderQuiz();
+  arabizeTextNodes(); // ✅ أول مرة
+</script>
+</body>
+</html>
